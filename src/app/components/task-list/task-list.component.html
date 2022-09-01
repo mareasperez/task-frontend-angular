@@ -1,21 +1,23 @@
-
-<ul class="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
-  <li class="pb-3 sm:pb-4" *ngFor="let task of taskList">
-    <div class="flex items-center space-x-4">
-       <div class="flex-shrink-0">
-          <img class="w-8 h-8 rounded-full" [src]="task.image" alt="Neil image">
-       </div>
-       <div class="flex-1 min-w-0">
-          <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-             {{ task.title }}
-          </p>
-          <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-             {{ task.description }}
-          </p>
-       </div>
-       <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-          $320
-       </div>
-    </div>
- </li>
+<ul class="ml-5 max-w-md divide-y divide-gray-200 dark:divide-gray-700">
+   <li class="pb-3 sm:pb-4" *ngFor="let task of taskList">
+      <div class="flex items-center space-x-4">
+         <div class="flex-shrink-0">
+            <img class="w-8 h-8 rounded-full" [src]="task.image" alt="Neil image">
+         </div>
+         <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+               {{ task.title }}
+            </p>
+            <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+               {{ task.description }}
+            </p>
+         </div>
+         <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+            <button class="btn btn-primary btn-xs mr-5" type="button" (click)="setTaskToUpdate(task.id)"><i
+                  class="fa-regular fa-pen-to-square"></i></button>
+            <button class="btn btn-danger btn-xs" type="button" (click)="deleteTask(task.id)"><i
+                  class="fa-solid fa-trash"></i></button>
+         </div>
+      </div>
+   </li>
 </ul>

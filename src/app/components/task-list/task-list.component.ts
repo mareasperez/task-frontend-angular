@@ -10,8 +10,8 @@ import { TaskService } from 'src/app/services/task.service';
 export class TaskListComponent implements OnInit {
   public taskList = Array<TaskModel>();
   constructor(private taskService: TaskService) {
-    this.taskService.getTasks().subscribe((tasks: TaskModel[]) => {
-      this.taskList = tasks;
+    this.taskService.getTaskList$().subscribe(taskList => {
+      this.taskList = taskList;
     });
   }
 
@@ -19,6 +19,21 @@ export class TaskListComponent implements OnInit {
     console.log(this.taskList);
   }
   deleteTask(id: string) {
-    this.taskList = this.taskList.filter(task => task.id !== id);
+    this.taskService.deleteTask(id).subscribe(() => {
+      this.taskList = this.taskList.filter(task => task.id !== id);
+    });
+    this.taskService.setTaskList(this.taskList);
+  }
+
+  updateTask(task: TaskModel) {
+    this.taskService.updateTask(task).subscribe(() => {
+      this.taskList = this.taskList.filter(t => t.id !== task.id);
+      this.taskList.push(task);
+    });
+    this.taskService.setTaskList(this.taskList);
+  }
+  setTaskToUpdate(id: string) {
+    const task = this.taskList.find(t => t.id === id);
+    this.taskService.setEditingTask(task as TaskModel);
   }
 }

@@ -1,24 +1,26 @@
-<form id="taskForm" class="bg-zinc-700 p-10 rounded-md max-w-md">
+<form id="taskForm" [formGroup]="form" class="bg-zinc-700 p-10 rounded-md max-w-md">
     <!-- card header -->
-    <div class="flex justify-between items-center">
-        <h2 class="text-2xl font-bold text-center">New Task</h2>
-        <button type="button" class="text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md transition ease-in-out delay-150
-        hover:-translate-y-1 hover:scale-110 duration-300" hover="">
-            <i class="fas fa-times"></i>
-        </button>
+    <div class="flex flex-col justify-center items-center">
+        <img class="w-40 h-20 rounded-t-3xl" [src]="this.Form['image'].value" alt="task image">
     </div>
     <!-- title -->
     <label for="title" class="block">Title</label>
-    <input type="text" id="title" name="title" placeholder="Write a title"
+    <input type="text" formControlName="title" id="title" name="title" placeholder="Write a title"
         class="bg-gray-800 px-1 py-2 w-full rounded-md mb-2">
     <!-- description -->
     <label for="description" class="block">Description</label>
-    <textarea name="description" rows="3" placeholder="Write a description"
+    <textarea name="description" formControlName="description" rows="3" placeholder="Write a description"
         class="bg-gray-800 px-1 py-2 w-full rounded-md mb-2"></textarea>
     <label for="image" class="block">Image</label>
-    <input type="url" id="image" placeholder="Url link" name="image"
+    <input type="url" formControlName="image" id="image" placeholder="Url link" name="image"
         class="bg-gray-800 px-1 py-2 w-full rounded-md mb-2">
-    <button class="bg-blue-600 px-3 py-1 rounded-md hover:bg-blue-500">
-        Save
-    </button>
+    <!-- submit button -->
+    <div class="flex justify-between items-center">
+        <button class="bg-blue-600 px-3 py-1 rounded-md hover:bg-blue-500" type="submit" (click)="saveTask()">
+            Save
+        </button>
+        <button class="bg-red-600 px-3 py-1 rounded-md hover:bg-red-500" type="reset" >
+            Cancel
+        </button>
+    </div>
 </form>

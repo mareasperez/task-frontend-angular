@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TaskService } from './services/task.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'task-frontend-angular';
+  constructor(private taskService: TaskService) {
+    this.taskService.loadTask();
+  }
 }
