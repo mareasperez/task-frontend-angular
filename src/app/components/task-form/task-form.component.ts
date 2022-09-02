@@ -67,4 +67,8 @@ export class TaskFormComponent implements OnInit {
   get Form(): FormGroup['controls'] {
     return this.form.controls;
   }
+
+  logForm(): void {
+    console.log(this.form);
+  }
 }
