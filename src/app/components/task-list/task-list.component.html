@@ -12,7 +12,10 @@
                {{ task.description }}
             </p>
          </div>
-         <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+         <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white" [ngClass]="{
+            'invisible': task === editingTask,
+            'visible': task !== editingTask
+         }">
             <button class="btn btn-primary btn-xs mr-5" type="button" (click)="setTaskToUpdate(task.id)"><i
                   class="fa-regular fa-pen-to-square"></i></button>
             <button class="btn btn-danger btn-xs" type="button" (click)="deleteTask(task.id)"><i

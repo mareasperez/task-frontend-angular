@@ -17,6 +17,7 @@ import {
 export class TaskFormComponent implements OnInit {
   public form: FormGroup;
   constructor(private fb: FormBuilder, private taskService: TaskService) {
+    const urlRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+\.(jpg|jpeg|png|webp|avif|gif|svg)$/;
     this.form = this.fb.group({
       id: null,
       title: new FormControl('', [
@@ -29,7 +30,7 @@ export class TaskFormComponent implements OnInit {
         Validators.minLength(2),
         Validators.maxLength(100),
       ]),
-      image: new FormControl('', [Validators.required]),
+      image: new FormControl('', [Validators.required,Validators.pattern(urlRegex)]),
     });
     this.taskService.getEditingTask().subscribe((task: TaskModel) => {
       if (task) {
@@ -47,19 +48,11 @@ export class TaskFormComponent implements OnInit {
       this.taskService.updateTask(task).subscribe(() => {
         this.taskService.setEditingTask({} as TaskModel);
         this.form.reset();
-        // update item in the list
-        const taskList = this.taskService.getTaskList();
-        const index = taskList.findIndex(item => item.id === task.id);
-        taskList[index] = task;
-        this.taskService.setTaskList(taskList);
       });
     } else {
-      this.taskService.createtask(task).subscribe((newTask: TaskModel) => {
+      this.taskService.createtask(task).subscribe(() => {
+        this.taskService.setTaskList(this.taskService.getTaskList().concat(task));
         this.form.reset();
-        this.taskService.setTaskList([
-          ...this.taskService.getTaskList(),
-          newTask,
-        ]);
       });
     }
   }
@@ -70,5 +63,9 @@ export class TaskFormComponent implements OnInit {
 
   logForm(): void {
     console.log(this.form);
+  }
+  cancel(){
+    this.form.reset();
+    this.taskService.setEditingTask({} as TaskModel);
   }
 }

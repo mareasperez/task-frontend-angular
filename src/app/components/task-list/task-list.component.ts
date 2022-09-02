@@ -9,9 +9,13 @@ import { TaskService } from 'src/app/services/task.service';
 })
 export class TaskListComponent implements OnInit {
   public taskList = Array<TaskModel>();
+  public editingTask: TaskModel = {} as TaskModel;
   constructor(private taskService: TaskService) {
     this.taskService.getTaskList$().subscribe(taskList => {
       this.taskList = taskList;
+    });
+    this.taskService.getEditingTask().subscribe(task => {
+      this.editingTask = task;
     });
   }
 
@@ -19,10 +23,8 @@ export class TaskListComponent implements OnInit {
     console.log(this.taskList);
   }
   deleteTask(id: string) {
-    this.taskService.deleteTask(id).subscribe(() => {
-      this.taskList = this.taskList.filter(task => task.id !== id);
-    });
-    this.taskService.setTaskList(this.taskList);
+    console.log('deleting task ' + id);
+    this.taskService.deleteTask(id).subscribe(() => {});
   }
 
   updateTask(task: TaskModel) {
@@ -34,6 +36,8 @@ export class TaskListComponent implements OnInit {
   }
   setTaskToUpdate(id: string) {
     const task = this.taskList.find(t => t.id === id);
+    this.editingTask = task as TaskModel;
+    console.log(this.editingTask);
     this.taskService.setEditingTask(task as TaskModel);
   }
 }
