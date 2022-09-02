@@ -47,6 +47,11 @@ export class TaskFormComponent implements OnInit {
       this.taskService.updateTask(task).subscribe(() => {
         this.taskService.setEditingTask({} as TaskModel);
         this.form.reset();
+        // update item in the list
+        const taskList = this.taskService.getTaskList();
+        const index = taskList.findIndex(item => item.id === task.id);
+        taskList[index] = task;
+        this.taskService.setTaskList(taskList);
       });
     } else {
       this.taskService.createtask(task).subscribe((newTask: TaskModel) => {
